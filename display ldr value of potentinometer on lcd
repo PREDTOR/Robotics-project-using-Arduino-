@@ -1,0 +1,20 @@
+#include<LiquidCrystal.h>
+int a,rs=47,rw=46,en=45,d0=44,d1=43,d2=42,d3=41,d4=40,d5=39,d6=38,d7=37;
+//initialize the library with the number of the interface pins 
+LiquidCrystal lcd(rs,rw,en,d4,d5,d6,d7);
+void setup() {
+  // put your setup code here, to run once:
+  lcd.begin(16,2);
+  
+}
+
+void loop() 
+{
+  // put your main code here, to run repeatedly:
+  a=analogRead(A15);
+  lcd.print(a);
+  delay(1000);
+  lcd.clear();
+  
+
+}
