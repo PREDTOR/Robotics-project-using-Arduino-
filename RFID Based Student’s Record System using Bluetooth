@@ -1,0 +1,157 @@
+//RFID based students attendance system using bluetooth.
+#include<LiquidCrystal.h> //liquid crystal library
+
+int rs=47,rw=46,e=45,d4=40,d5=39,d6=38,d7=37; //initialize the lcd pins
+LiquidCrystal lcd(rs,rw,e,d4,d5,d6,d7); //lcd function create.
+
+char a[12]="54006B3F1515"; //tag of teacher is store in array.
+char b[12]; //tag is store in different array while scanning.
+char d[4]="1123"; //password is store in array.
+char c[4]; //user password is store in array.
+char g[4]="1124"; //Bluetooth code for second student
+char l[4]="1126"; //Bluetooth code for thirs student
+char i=0;
+int count=0; //taking students count
+int led=22; //take var for pin led
+int r=0;
+int key1=29; //take switch for total students
+int absent=0;
+int total=5; //total no. of students
+
+void setup()
+{
+lcd.begin(16,2); //initialize the lcd.
+Serial3.begin(9600); //initialize the RFID reader.
+Serial2.begin(9600); //initialize the bluetooth module.
+Serial.begin(9600); //initialize the serial monitor.
+pinMode(led,OUTPUT); //initialize the led as output.
+digitalWrite(led,HIGH); //initialize the led by make it is off.
+pinMode(key1,INPUT); //initialize the switch as input.
+digitalWrite(key1,HIGH); //initialize the key by make it is off.
+}
+
+void loop()
+{
+if(digitalRead(key1)==0) // checking the key is press or not.
+{
+lcd.clear(); //clear lcd screen.
+lcd.setCursor(0,0); //set cursor at lcd position 0,0
+lcd.print("present"); //if key is press displays the present students.
+lcd.setCursor(0,1); //set cursor at lcd position at same time on 0,1
+
+lcd.print(count); //displays count of students
+delay(2000);
+lcd.clear();
+absent=total-count; //logic for count absent student.
+lcd.setCursor(0,0); //set cursor at lcd position 0,0
+lcd.print("absent"); //displays absent students on lcd.
+lcd.setCursor(0,1); //set cursor at lcd position 0,1
+lcd.print(absent); // displays absent students count on lcd.
+delay(2000);
+lcd.clear(); //clear lcd screen.
+}
+
+here:lcd.setCursor(0,0);
+lcd.print("show your ID"); //print on scan your id on lcd.
+if(Serial3.available()>0) //condition when value is obtained or not on rfid module.
+{
+b[r]=Serial3.read(); //if value is obtained then read.and store in array
+Serial.print(b[r]); //print the value on serial monitor.
+r++; //increment r.
+}
+
+if(r==12) //condition when r=12.
+{
+if(strncmp(b,a,12)==0) //condition for comparing fix array and scan array.
+{
+lcd.clear(); //clear display.
+lcd.print("welcome"); //print welcome on lcd.
+Serial.println("sanket more"); //print student's name on serial monitor.
+delay(2000);
+lcd.clear(); //clear display.
+lcd.print("enter password"); //print enter password on lcd.
+delay(2000);
+Serial.print("enter password"); //print enter password on Serial monitor.
+Serial2.print("enter password"); //print enter password on bluetooth.
+digitalWrite(led,LOW); //make led on
+delay(500);
+digitalWrite(led,HIGH); //make led off
+r=0; //make r=0;
+while(i!=4) //while loop for password will becomes 4 digits.
+{
+if(Serial2.available()>0) // check data is available or not on serial2.
+{
+c[i]=Serial2.read(); //if it available then read on serial2 and store array
+Serial.print(c[i]); //print password on serial monitor.
+i++; //increment i till it becomes 4.
+}
+if(i==4) //condition when password is 4 digits.
+{
+if(strncmp(c,d,4)==0) //then scan array is compared with fix array.
+{
+lcd.clear(); //clear display.
+Serial.print("access granted"); //if is matched then print access granted on serial.
+lcd.print("sanket more"); //if is matched then print name on lcd.
+delay(2000); //delay of 2 seconds.
+lcd.clear();
+lcd.print("your record store"); //if is matched then print on lcd.
+lcd.rightToLeft();
+delay(1000);
+lcd.clear(); //clear lcd screen
+lcd.print("you are present"); //if is matched then print on lcd.
+delay(1000);
+Serial2.print("allow"); //print allow on serial 2.
+digitalWrite(led,LOW); //make led on.
+delay(500);
+lcd.clear();
+digitalWrite(led,HIGH); //make led off.
+count++;
+i=0; //make i to 0.
+goto here;
+} // close loop of if(strncmp(c,d,4)==0)
+if(strncmp(c,g,4)==0) //then scan array is compare with fix array.
+{
+lcd.clear(); //clear display.
+Serial.print("access granted"); //if is matched then print access granted.
+lcd.print("sagar sawant"); //if is matched then print name.
+delay(1000);
+lcd.clear();
+lcd.print("your record store"); //if is matched then print on lcd.
+delay(1000);
+lcd.clear();
+lcd.print("you are present"); //if is matched then print on lcd.
+delay(1000);
+Serial2.print("allow"); //print allow on serial 2.
+digitalWrite(led,LOW); //make led on.
+delay(500);
+digitalWrite(led,HIGH); //make led off
+lcd.clear();
+count++;
+i=0; //make i to 0.
+goto here;
+}
+else //if it is not match
+{
+lcd.clear();
+lcd.print("Wrong id"); //print wrong id.
+Serial2.print("wrong id");
+lcd.clear();
+i=0; //make i to zero.
+goto here;
+}
+} // close loop of i=4
+} //close the loop of while
+} // close loop of if(strncmp(b,a,12)==0)
+
+else //if it is not match
+{
+lcd.clear(); //clear lcd screen.
+lcd.print("Wrong id"); //print wrong id.
+Serial2.print("wrong id"); //print on mobile using Bluetooth.
+delay(2000); //delay of 2 seconds.
+lcd.clear(); //clear lcd screen.
+r=0; //make r to zero.
+goto here; //goto initial position.
+} //close loop of else.
+} // close loop of if(r==12)
+}
