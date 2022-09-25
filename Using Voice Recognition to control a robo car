@@ -1,0 +1,86 @@
+/* 
+to make it with voice identification use:
+go to settings and then vocal commands and configuration
+after 10 commands can be entered 
+   voice command to declare th word you want to use
+   data to send to run the declared keyword like f for forward and forward in voice command to
+   say forward and ti takes f form confition below
+*/
+#include<LiquidCrystal.h>
+int rs=47,rw=46,en=45,d0=44,d1=43,d2=42,d3=41,d4=40,d5=39,d6=38,d7=37;
+LiquidCrystal lcd(rs,rw,en,d4,d5,d6,d7);
+int m11=33,m12=34,m21=35,m22=36;
+char key;
+void setup() {
+  // put your setup code here, to run
+  
+  pinMode(m11,OUTPUT);
+  pinMode(m12,OUTPUT);
+  pinMode(m21,OUTPUT);
+  pinMode(m22,OUTPUT);
+  digitalWrite(m11,LOW);
+  digitalWrite(m12,LOW);
+  digitalWrite(m21,LOW);
+  digitalWrite(m22,LOW);
+  Serial2.begin(9600);
+  lcd.begin(16,2);
+  lcd.print("Robo car");
+  lcd.setCursor(0,1);
+  lcd.print("Project 1");
+  delay(2000);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  
+ if(Serial2.available()>0)
+ {
+  key = Serial2.read();}
+  if(key=='f'){
+    lcd.clear();
+    lcd.print("Going forward!!");
+    digitalWrite(m11,HIGH);
+    digitalWrite(m21,HIGH);
+    digitalWrite(m12,LOW);
+    digitalWrite(m22,LOW);
+    delay(2000);
+    }
+    if( key=='b'){
+    lcd.clear();
+    lcd.print("Going backward!!");
+    digitalWrite(m12,HIGH);
+    digitalWrite(m22,HIGH);
+    digitalWrite(m11,LOW);
+    digitalWrite(m21,LOW);
+    delay(2000);
+    }
+   if(key=='s'){
+    lcd.clear();
+    lcd.print("Going to stop");
+    digitalWrite(m11,LOW);
+    digitalWrite(m12,LOW);
+    digitalWrite(m21,LOW);
+    digitalWrite(m22,LOW);
+   }
+   if(key=='r'){
+    lcd.clear();
+    lcd.print("Going right!!");
+   digitalWrite(m21,HIGH);
+   digitalWrite(m12,HIGH);
+   digitalWrite(m11,LOW);
+   digitalWrite(m22,LOW);
+   delay(2000);
+   }
+   if(key=='l'){
+   lcd.clear();
+   lcd.print("Going Left");
+   digitalWrite(m21,LOW);
+   digitalWrite(m12,LOW);
+   digitalWrite(m11,HIGH);
+   digitalWrite(m22,HIGH);
+   delay(2000);
+    }
+   }
+
+  
+  
