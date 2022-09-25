@@ -1,0 +1,26 @@
+int k1 = 29,buz=31;
+char key;           
+void setup()
+{
+   // digitalWrite(buz,HIGH);
+    pinMode(k1,INPUT);
+    //pinMode(buz,OUTPUT);
+    Serial.begin(9600 );
+    Serial2.begin(9600 );                                 
+    pinMode(22, OUTPUT);  
+    //digitalWrite(22,HIGH);
+}
+void loop() {
+  if (Serial2.available() > 0) {
+    key = Serial2.read();
+    if (key == '1' ) {
+      digitalWrite(22,LOW);
+    }
+    if (key == '2') {
+      digitalWrite(22,HIGH);
+     // Serial.println("it's OFF");
+    }
+  }
+ // bz();
+ // delay(100);
+}
