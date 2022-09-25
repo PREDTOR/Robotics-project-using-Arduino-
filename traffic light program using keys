@@ -1,0 +1,63 @@
+int led1 = 22, key1 = 29,key2=30,key3=27,led2=23,led3=24;
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(led1,OUTPUT);
+  pinMode(led2,OUTPUT);
+  pinMode(led3,OUTPUT);
+  pinMode(key1,INPUT);
+  pinMode(key2,INPUT);
+  pinMode(key3,INPUT);
+  
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  k1();
+  k2();
+  k3();
+}
+int k1(){
+  if(digitalRead(key1)==HIGH)
+  {
+    digitalWrite(led1,HIGH);
+  }
+  else if(digitalRead(key1)==LOW)
+  {
+    if(digitalRead(key2)==HIGH)
+    {
+     digitalWrite(led1,LOW);
+    }
+  }
+}
+int k2(){
+  if(digitalRead(key2)==HIGH)
+  {
+    digitalWrite(led2,HIGH);
+
+  }
+  else if(digitalRead(key2)==LOW)
+  {
+    if(digitalRead(key3)==LOW)
+    {
+     digitalWrite(led2,LOW);
+    }
+  }
+  }
+int k3(){
+  if(digitalRead(key3)==HIGH)
+  {
+    digitalWrite(led3,HIGH);
+  }
+  else if(digitalRead(key3)==LOW)
+  {
+   if(digitalRead(key1)==LOW)
+   {
+    digitalWrite(led3,LOW);
+   }
+  }
+  }
+
+
+
+
+  
