@@ -1,0 +1,53 @@
+ #include<LiquidCrystal.h>
+int rs=47,rw=46,en=45,d0=44,d1=43,d2=42,d3=41,d4=40,d5=39,d6=38,d7=37,key1=29,key2=30,key3=27,key4=28;
+LiquidCrystal lcd(rs,rw,en,d4,d5,d6,d7);
+int count1=0,count2=0,count3=0,count4=0;
+void setup() {
+  // put your setup code here, to run once:
+lcd.begin(16,2);
+lcd.clear();
+pinMode(29,INPUT);
+pinMode(30,INPUT);
+pinMode(27,INPUT);
+pinMode(28,INPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+if(digitalRead(key1)==LOW){
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("vote for 1st");
+  count1+=1;
+  lcd.print(count1);
+  while(digitalRead(key1)==LOW){
+  }
+}
+ if(digitalRead(key2)==LOW){
+ 
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("vote for 2nd");
+   count2+=1;
+  lcd.print(count2);
+  while(digitalRead(key2)==LOW){
+ 
+  }}
+ if(digitalRead(key3)==LOW){
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("vote for 3rd");
+  count3+=1;
+  lcd.print(count3);
+  while(digitalRead(key3)==LOW){
+  
+  }
+ }
+if(digitalRead(key4)==LOW){
+  count4+=1;
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print(count4,"vote for 4st");
+  }
+}
