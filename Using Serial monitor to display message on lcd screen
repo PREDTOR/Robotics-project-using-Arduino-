@@ -1,0 +1,34 @@
+
+
+#include<LiquidCrystal.h> // including liquid crystal header file
+int rs=47,rw=46,en=45,d0=44,d1=43,d2=42,d3=41,d4=40,d5=39,d6=38,d7=37,key1=29,key2=30;
+char key;
+//initialize the library with the number of the interface pins 
+LiquidCrystal lcd(rs,rw,en,d4,d5,d6,d7);
+void setup() {
+  // put your setup code here, to run once:
+   lcd.begin(16,2);
+   lcd.print("hello boss!");
+   delay(1000);
+   lcd.clear();
+   Serial.begin(9600);
+   Serial.println("Enter a 4 digit password to enter");
+   i = String("1234");
+  char = i;
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+if (Serial.available() > 0) {
+    
+    key = Serial.read();
+    if (key == i) {
+     // digitalWrite(22, HIGH);
+      lcd.print("umm so");
+      lcd.print("\n okay access granted");
+    }
+    if (key != i){
+      lcd.print("damn wrong pin acess denied");
+      }
+    }
+}
