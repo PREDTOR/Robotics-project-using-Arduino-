@@ -1,0 +1,58 @@
+//bluetoth based wireless home appliances control
+#include <LiquidCrystal.h> //LCD LIBRARY
+LiquidCrystal lcd(47,46,45,40,39,38,37); //LCD PINOUT
+int relay=32; //INITIALIZE RELAY PIN NUMBER
+int motor1_1=33; //INITIALIZE MOTOR PIN POSITIVE TERMINAL
+int motor1_2=34; //INITIALIZE MOTOR PIN NEGATIVE TERMINAL
+char ch; //INITIALIZE CHARATER
+void setup()
+{
+pinMode(32,INPUT); //INITALIZE RELAY AS A INPUT
+pinMode(33,INPUT); //INITALIZE MOTOR AS A INPUT
+pinMode(34,INPUT); //INITALIZE MOTOR AS A INPUT
+Serial.begin(9600); //SETTING THE BAUD RATE OF SERAIL MONITOR
+Serial2.begin(9600); //INITIALIZE A BLUETOOTH SERIAL COMMUNICATION
+digitalWrite(32,LOW); //MAKING RELAY OFF
+lcd.begin(16,2); //FOR LCD DISPLAY
+lcd.setCursor(0,0); //TAKE CONTROL TO A PARTICULAR PLACE
+lcd.print(" wireless home"); //PRINT ON DISPLAY
+lcd.setCursor(2,1); //SETS THE CURSOR TO 2ND COLUMN AND 1ST ROW
+lcd.print(" automation");
+delay(1000); //WAIT A 1 SECONDS
+
+}
+void loop()
+{
+if(Serial2.available()>0)
+// CHECK THE BLUETOOTH DATA AVAILABLE ON RECEIVER LINE AUR NOT
+{
+ch=Serial2.read(); //READ INCOMING DATA IN CHAR
+if(ch=='1') //BLUETOOTH THROUGH TRANSMITTED DATA 1 CONDITION FOR LIGHT ON
+{
+lcd.clear(); //CLEAR SCREEN
+lcd.print("light on"); // DISPLAY ON LCD
+digitalWrite(relay,HIGH); //RELAY ON
+}
+if(ch=='2') ) //BLUETOOTH THROUGH TRANSMITTED DATA 1 CONDITION FOR LIGHT ON
+
+{
+lcd.clear(); //CLEAR SCREEN
+lcd.print("light off");
+digitalWrite(relay,LOW); //RELAY OFF
+}
+if(ch=='3') //BLUETOOTH THROUGH TRANSMITTED DATA 1 CONDITION FOR MOTOR ON
+{
+lcd.clear();
+lcd.print("fan on");
+digitalWrite(33,HIGH); //MOTOR POSITIVE TRMINAL ON
+digitalWrite(34,LOW); //MOTOR NEGATIVE TERMINAL OFF
+}
+if(ch=='4') //BLUETOOTH THROUGH TRANSMITTED DATA 1 CONDITION FOR MOTOR ON
+{
+lcd.clear();
+lcd.print("fan off");
+digitalWrite(33,LOW); //MOTOR POSITIVE TRMINAL OFF
+digitalWrite(34,LOW); //MOTOR NEGATIVE TERMINAL OFF
+}
+}
+}
