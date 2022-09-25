@@ -1,0 +1,50 @@
+//int buz=31;
+int m11=33,m12=34,m21=35,m22=36,sw1=29,sw2=30,sw3=27;
+char key;           
+void setup()
+{
+    //digitalWrite(buz,HIGH);
+   // pinMode(k1,INPUT);
+   // pinMode(buz,OUTPUT);
+    Serial.begin(9600 );                                  
+    pinMode(22, OUTPUT);  
+  
+  pinMode(m11,OUTPUT);
+  pinMode(m12,OUTPUT);
+  pinMode(m21,OUTPUT);
+  pinMode(m22,OUTPUT);
+  digitalWrite(m11,LOW);
+  digitalWrite(m12,LOW);
+  digitalWrite(m21,LOW);
+  digitalWrite(m22,LOW);
+  Serial.println("Press 1 to go forward 2 for backward 0 to stop.....");
+}
+void loop() {
+  if (Serial.available() > 0) {
+    key = Serial.read();
+
+    if (key == '1' ) {
+    Serial.println("it's going forward!!!!!");
+    digitalWrite(m11,HIGH);
+    digitalWrite(m12,LOW);
+    digitalWrite(m21,HIGH);
+    digitalWrite(m22,LOW);
+    }
+   else if (key == '2') {
+    Serial.println("It's Going backwards!!!!");
+    digitalWrite(m11,LOW);
+    digitalWrite(m12,HIGH);
+    digitalWrite(m21,LOW);
+    digitalWrite(m22,HIGH);
+    }
+   else if (key == '0'){
+      Serial.println("Standby!!");
+      digitalWrite(m11,LOW);
+      digitalWrite(m12,LOW);
+      digitalWrite(m21,LOW);
+      digitalWrite(m22,LOW);  
+      }
+  }
+  //bz();
+  delay(100);
+}
